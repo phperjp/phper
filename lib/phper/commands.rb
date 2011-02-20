@@ -94,6 +94,25 @@ class Phper::Commands < CommandLineUtils::Commands
 
   end
 
+  def destroy
+    project = nil
+    yes = false
+    OptionParser.new { |opt|
+      opt.on('-y','--yes', 'answer yes for all questions') { |v|
+        yes = true
+      }
+      project = extract_project(opt)
+      @summery = "destroy project"
+      return opt if @help
+    }
+    raise "project is not specified." unless project
+    yes = true if yes or ask("Destroy #{project}? ",["yes","no"]) == "yes"
+    if yes
+      start
+      @agent.projects_delete project
+      puts "Destroyed #{project}"
+    end
+  end
 
   def keys
     OptionParser.new { |opt|

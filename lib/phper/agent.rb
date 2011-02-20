@@ -41,6 +41,10 @@ class Phper::Agent
     post("/projects",{:project => param})
   end
 
+  def projects_delete name
+    delete("/projects/#{name}")
+  end
+
   def keys
     get("/keys")
   end
