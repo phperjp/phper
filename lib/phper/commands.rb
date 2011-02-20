@@ -229,10 +229,37 @@ class Phper::Commands < CommandLineUtils::Commands
   end
 
   def servers_clear
+    OptionParser.new { |opt|
+      project = extract_project(opt)
+      @summery = "remove all servers"
+      return opt if @help
+    }
+    raise "project is not specified." unless project
 
   end
 
-  def open url
+  def open
+    project = nil
+    OptionParser.new { |opt|
+      project = extract_project(opt)
+      @banner = "[<host or name pattern>]"
+      @summery = "Open URL"
+      return opt if @help
+    }
+    raise "project is not specified." unless project
+    start
+    servers = @agent.servers(project)
+    raise "project #{project} has no servers." if servers.length == 0
+    name = @command_options.shift
+
+    server = nil
+    if name
+      server = servers.find { |s|
+        s["server"]["name"] =~ /^#{name}/ or s["server"]["fqdn"] =~ /^#{name}/
+      }
+    end
+    server = servers.shift unless server
+    url = "http://#{server["server"]["fqdn"]}"
     puts "Opening #{url}"
     Launchy.open url
   end
