@@ -11,4 +11,10 @@ class Phper::CLI < CommandLineUtils::CLI
   def dispatch(cmd,cmd_argv)
     @commands.send(cmd.sub(/:/,"_"))
   end
+  def version
+    File.open(File.join(File.dirname(__FILE__) ,
+                        "..","..","VERSION"),"r") { |file|
+      puts file.gets
+    }
+  end
 end
