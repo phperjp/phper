@@ -91,7 +91,10 @@ class Phper::Commands < CommandLineUtils::Commands
                                       project["project"]["dbpassword"],
                                       project["project"]["dbhost"],
                                       project["project"]["dbname"]]
-
+    # if here
+    if in_git? and project["project"]["id"] != git_remote(Dir.pwd) 
+      %x{git remote add phper #{project["project"]["git"]}} 
+    end
   end
 
   def destroy
@@ -111,6 +114,14 @@ class Phper::Commands < CommandLineUtils::Commands
       start
       @agent.projects_delete project
       puts "Destroyed #{project}"
+      # if here
+      if in_git? and project["project"]["id"] == git_remote(Dir.pwd)
+        git_remotes(project["project"]["git"]){ |name|
+          cmd = "git remote rm #{name}"
+          %x{#{cmd}}
+          puts cmd
+        }
+      end
     end
   end
 

@@ -9,6 +9,7 @@ GEM
       bundler (~> 1.0.0)
       git (>= 1.2.5)
       rake
+    json (1.5.1)
     keystorage (0.4.3)
     launchy (0.3.7)
       configuration (>= 0.0.5)
@@ -28,6 +29,7 @@ DEPENDENCIES
   command-line-utils (>= 0.0.1)
   highline (> 1.6)
   jeweler (~> 1.5.2)
+  json
   keystorage (> 0.1)
   launchy
   rcov

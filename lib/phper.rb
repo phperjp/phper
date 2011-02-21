@@ -17,6 +17,22 @@ module Phper
     nil
   end
 
+  def git_remotes(git)
+    # %x{git remote add phper #{project["project"]["git"]}} 
+    r = []
+    %x{git remote -v 2> /dev/null }.each_line{ |line|
+      if line.include?(git)
+        r << $1 if line =~ /^(\S+)/
+      end
+    }
+    r.uniq
+  end
+
+  def in_git?
+    %x{git status 2>/dev/null }
+    $?.to_i == 0
+  end
+
 end
 require "rubygems"
 require "json"

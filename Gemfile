@@ -7,6 +7,7 @@ gem 'keystorage', '> 0.1'
 gem 'highline', '> 1.6'
 gem 'command-line-utils' , '>= 0.0.1'
 gem 'launchy'
+gem 'json'
 
 # Add dependencies to develop your gem here.
 # Include everything needed to run rake, tests, features, etc.
