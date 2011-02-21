@@ -9,7 +9,7 @@ module Phper
 
   # git remoteの結果からプロジェクトを推測する
   def git_remote(base_dir)
-    %x{git remote -v}.each_line{ |line|
+    %x{git remote -v 2> /dev/null }.each_line{ |line|
       if line =~ /\sgitosis@git\.phper\.jp:(.+)\/(.+)\.git\s/
         return [$1,$2].join("-")
       end
