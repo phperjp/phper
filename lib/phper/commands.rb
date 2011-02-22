@@ -93,7 +93,10 @@ class Phper::Commands < CommandLineUtils::Commands
                                       project["project"]["dbname"]]
     # if here
     if in_git? and project["project"]["id"] != git_remote(Dir.pwd) 
-      %x{git remote add phper #{project["project"]["git"]}} 
+      git = project["project"]["git"]
+      cmd = "git remote add phper #{git}"
+      %x{#{cmd}}
+      puts cmd
     end
   end
 
@@ -109,14 +112,18 @@ class Phper::Commands < CommandLineUtils::Commands
       return opt if @help
     }
     raise "project is not specified." unless project
+    start
+    pj = @agent.projects(project)
+    git = pj["project"]["git"]
+    raise "project is not exist." unless pj
+
     yes = true if yes or ask("Destroy #{project}? ",["yes","no"]) == "yes"
     if yes
-      start
       @agent.projects_delete project
       puts "Destroyed #{project}"
       # if here
-      if in_git? and project["project"]["id"] == git_remote(Dir.pwd)
-        git_remotes(project["project"]["git"]){ |name|
+      if in_git? and project == git_remote(Dir.pwd)
+        git_remotes(git).each{ |name|
           cmd = "git remote rm #{name}"
           %x{#{cmd}}
           puts cmd
