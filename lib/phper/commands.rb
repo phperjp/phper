@@ -9,7 +9,7 @@ class Phper::Commands < CommandLineUtils::Commands
     @commands += ["login","logout","list","create","destroy","info"]
     @commands += ["keys","keys:add","keys:remove","keys:clear"]
     @commands += ["servers","servers:add","servers:remove"]
-    @commands += ["open","mysql:init","deploy"]
+    @commands += ["open","db:init","deploy"]
 
     @agent = Agent.new
     # @cache_file =  homedir + "/.phper.cache"
@@ -89,7 +89,7 @@ class Phper::Commands < CommandLineUtils::Commands
     puts "--> %s" % project["project"]["git"]
     puts "--> mysql://%s:%s@%s/%s" % [project["project"]["dbuser"],
                                       project["project"]["dbpassword"],
-                                      project["project"]["dbhost"],
+                                      "db.phper.jp",
                                       project["project"]["dbname"]]
     # if here
     if in_git? and project["project"]["id"] != git_remote(Dir.pwd) 
@@ -294,8 +294,33 @@ class Phper::Commands < CommandLineUtils::Commands
     Launchy.open url
   end
 
+  def deploy
+    project = nil
+    OptionParser.new { |opt|
+      project = extract_project(opt)
+      @banner = ""
+      @summery = "Deploy project"
+      return opt if @help
+    }
+    raise "project is not specified." unless project
+    start
+    @agent.projects_deploy(project)
+    puts "Deploy #{project}"
+  end
 
-
+  def db_init
+    project = nil
+    OptionParser.new { |opt|
+      project = extract_project(opt)
+      @banner = ""
+      @summery = "Initialize project database."
+      return opt if @help
+    }
+    raise "project is not specified." unless project
+    start
+    @agent.projects_init_db(project)
+    puts "Initialize Database #{project}"
+  end
 
 
 

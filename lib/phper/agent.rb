@@ -49,6 +49,15 @@ class Phper::Agent
     get("/keys")
   end
 
+
+  def projects_deploy project
+    get("/projects/%s/deploy" % project)
+  end
+  
+  def projects_init_db project
+    get("/projects/%s/db/initialize" % project)
+  end
+
   def keys_create key
     param = {}
     param[:public_key] = key if key
@@ -97,10 +106,6 @@ class Phper::Agent
     }
     count
   end
-
-
-
-
 
 
   def post(url,data = {},format=:json)
