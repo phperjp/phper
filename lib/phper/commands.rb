@@ -96,7 +96,7 @@ class Phper::Commands < CommandLineUtils::Commands
       git = project["project"]["git"]
       cmd = "git remote add phper #{git}"
       %x{#{cmd}}
-      puts cmd
+      puts "--> #{cmd}"
     end
   end
 
@@ -126,7 +126,7 @@ class Phper::Commands < CommandLineUtils::Commands
         git_remotes(git).each{ |name|
           cmd = "git remote rm #{name}"
           %x{#{cmd}}
-          puts cmd
+          puts "--> #{cmd}"
         }
       end
     end
