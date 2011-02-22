@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{phper}
-  s.version = "0.2.4"
+  s.version = "0.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Yoshihiro TAKAHARA"]
-  s.date = %q{2011-02-21}
+  s.date = %q{2011-02-22}
   s.default_executable = %q{phper}
   s.description = %q{phper}
   s.email = %q{y.takahara@gmail.com}
