@@ -21,7 +21,6 @@ Install
 Usage
 -----
 
-### Usage 
     phper [options] <commands> [<command options>] args...
         --version                    show version
         --help                       show this message
