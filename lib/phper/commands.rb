@@ -73,6 +73,27 @@ class Phper::Commands < CommandLineUtils::Commands
     }
   end
 
+  def info
+    project = nil
+    OptionParser.new { |opt|
+      project = extract_project(opt)
+      @summery = "show project info"
+      return opt if @help
+    }
+    raise "project is not specified." unless project
+    start
+    project = @agent.projects(project)
+    puts "%s" % project["project"]["id"]
+    puts "--> %s" % project["project"]["git"]
+    puts "--> mysql://%s:%s@%s/%s" % [project["project"]["dbuser"],
+                                      project["project"]["dbpassword"],
+                                      "db.phper.jp",
+                                      project["project"]["dbname"]]
+    @agent.servers(project["project"]["id"]).each { |server|
+      puts "%s\thttp://%s" % [server["server"]["name"],server["server"]["fqdn"]]
+    }
+  end
+
   def create
     OptionParser.new { |opt|
       opt.parse!(@command_options)
@@ -99,6 +120,8 @@ class Phper::Commands < CommandLineUtils::Commands
       puts "--> #{cmd}"
     end
   end
+
+  
 
   def destroy
     project = nil
@@ -191,17 +214,6 @@ class Phper::Commands < CommandLineUtils::Commands
     start
     count = @agent.keys_delete_all
     puts "%i key(s) removed" % [count]
-  end
-
-  def extract_project opt
-    @banner = [@banner,"[--project=<project>]"].join(" ")
-    project = nil
-    opt.on('--project=PROJECT', 'project') { |v|
-      project = full_project_name(v)
-    }
-    opt.parse!(@command_options)
-    return project if project
-    git_remote(Dir.pwd)
   end
 
   def servers
@@ -326,12 +338,28 @@ class Phper::Commands < CommandLineUtils::Commands
     raise "project is not specified." unless project
     start
     @agent.projects_init_db(project)
-    puts "Initialize Database #{project}"
+    project = @agent.projects(project)
+    puts "Initialize Database %s" % project["project"]["id"]
+    puts "--> mysql://%s:%s@%s/%s" % [project["project"]["dbuser"],
+                                      project["project"]["dbpassword"],
+                                      "db.phper.jp",
+                                      project["project"]["dbname"]]
   end
 
 
 
   private
+
+  def extract_project opt
+    @banner = [@banner,"[--project=<project>]"].join(" ")
+    project = nil
+    opt.on('--project=PROJECT', 'project') { |v|
+      project = full_project_name(v)
+    }
+    opt.parse!(@command_options)
+    return project if project
+    git_remote(Dir.pwd)
+  end
 
   def user
     Keystorage.list("phper.jp").shift
