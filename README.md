@@ -3,7 +3,7 @@ phper
 
 A CLI utility for PHPer.jp.
 
-PHPer.jp is a Platform As a Service of PHP.
+PHPer.jp is a Platform as a Service of PHP.
 
 Requirements
 ------------
@@ -21,10 +21,11 @@ Install
 Usage
 -----
 
-### Usage: phper [options]
-    --version                    show version
-    --help                       show this message
-    --debug                      debug mode
+### Usage 
+    phper [options] <commands> [<command options>] args...
+        --version                    show version
+        --help                       show this message
+        --debug                      debug mode
 
 ### Commands:
 
@@ -43,7 +44,7 @@ Usage
 * servers:add
 * servers:remove
 * open
-* mysql:init
+* db:init
 * deploy
 
 Contributing to phper
