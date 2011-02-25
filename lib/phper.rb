@@ -33,6 +33,24 @@ module Phper
     $?.to_i == 0
   end
 
+  def git_root
+    root = nil
+    begin
+      startdir = FileUtils.pwd
+      until File.directory?(".git")
+        FileUtils.cd('..')
+        raise "can't find git project" if FileUtils.pwd == "/"
+      end
+      root = FileUtils.pwd
+    rescue =>e
+      puts e
+    ensure
+      FileUtils.cd(startdir)
+    end
+    return root
+  end
+
+  
 end
 require "rubygems"
 require "json"

@@ -115,13 +115,10 @@ class Phper::Commands < CommandLineUtils::Commands
     # if here
     if in_git? and project["project"]["id"] != git_remote(Dir.pwd) 
       git = project["project"]["git"]
-      cmd = "git remote add phper #{git}"
-      %x{#{cmd}}
-      puts "--> #{cmd}"
+      exec_report("git remote add phper #{git}")
+      init_phper_dir
     end
   end
-
-  
 
   def destroy
     project = nil
@@ -147,9 +144,7 @@ class Phper::Commands < CommandLineUtils::Commands
       # if here
       if in_git? and project == git_remote(Dir.pwd)
         git_remotes(git).each{ |name|
-          cmd = "git remote rm #{name}"
-          %x{#{cmd}}
-          puts "--> #{cmd}"
+          exec_report("git remote rm #{name}")
         }
       end
     end
@@ -383,4 +378,73 @@ class Phper::Commands < CommandLineUtils::Commands
       login unless @agent.login?
     end
   end
+
+  def exec_report cmd
+    %x{#{cmd}}
+    puts "--> #{cmd}"
+  end
+
+=begin
+* [CLI] .phper/deploy
+* [CLI] .phper/initdb
+* [CLI] .phper/httpd.conf
+* [CLI] .phper/rsync_exclude.txt
+=end
+  def init_phper_dir
+    files = {}
+    files[:deploy] = File.join(git_root,".phper","deploy")
+    files[:initdb] = File.join(git_root,".phper","initdb")
+    files[:httpd] = File.join(git_root,".phper","httpd.conf")
+    files[:rsync] = File.join(git_root,".phper","rsync_exclude.txt")
+    FileUtils.mkdir_p(File.join(git_root,".phper"))
+    puts File.join(git_root,".phper")
+    # deploy
+    unless File.file?(files[:deploy])
+      File.open(files[:deploy],"w"){ |f|
+        f.puts <<EOF
+# deploy script here
+if [ ! -f .phper.deployed ] ; then
+  # when 1st deployed.
+fi
+
+EOF
+      }
+      File::chmod(0100755,files[:deploy])
+      exec_report("git add -f #{files[:deploy]}")
+    end
+    # initdb
+    unless File.file?(files[:initdb])
+      File.open(files[:initdb],"w"){ |f|
+        f.puts <<EOF
+# run after inititalize database
+EOF
+        f.puts ""
+      }
+      File::chmod(0100755,files[:initdb])
+      exec_report("git add -f #{files[:initdb]}")
+    end
+    # httpd.conf
+    unless File.file?(files[:httpd])
+      File.open(files[:httpd],"w"){ |f|
+        f.puts <<EOF
+# httpd.conf
+EOF
+      }
+      exec_report("git add -f #{files[:httpd]}")
+    end
+    # rsync
+    unless File.file?(files[:rsync])
+      File.open(files[:rsync],"w"){ |f|
+        f.puts <<EOF
+# rsync exclude
+.git
+CVS
+.svn
+EOF
+      }
+      exec_report("git add -f #{files[:rsync]}")
+    end
+  end
+
+
 end
