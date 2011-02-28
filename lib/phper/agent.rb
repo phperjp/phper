@@ -107,6 +107,21 @@ class Phper::Agent
     count
   end
 
+  def hosts project
+    get("/projects/%s/hosts" % project)
+  end
+
+  def files project,host,name = nil 
+    if name
+      get("/projects/%s/hosts/%s/files/%s" % [project,host,encode(name)])
+    else
+      get("/projects/%s/hosts/%s/files" % [project,host])
+    end
+  end
+
+
+
+
 
   def post(url,data = {},format=:json)
     call(:post,url,data,format)

@@ -1,15 +1,21 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 require 'phper'
+require "parsedate"
+require "time"
 
 class Phper::Commands < CommandLineUtils::Commands
   include Phper
+  attr_reader :commands
   def initialize
     super
     @commands += ["login","logout","list","create","destroy","info"]
     @commands += ["keys","keys:add","keys:remove","keys:clear"]
     @commands += ["servers","servers:add","servers:remove"]
     @commands += ["open","db:init","deploy"]
+    @commands += ["hosts"]
+    @commands += ["files","files:dump","files:get"]
+    @commands += ["files:modified","files:modified:get"]
 
     @agent = Agent.new
     # @cache_file =  homedir + "/.phper.cache"
@@ -341,9 +347,146 @@ class Phper::Commands < CommandLineUtils::Commands
                                       project["project"]["dbname"]]
   end
 
+  def hosts
+    project = nil
+    OptionParser.new { |opt|
+      project = extract_project(opt)
+      @summery = "list project hosts"
+      return opt if @help
+    }
+    raise "project is not specified." unless project
+    start
+    @agent.hosts(project).each { |host|
+      puts "%s" % [host["host"]["id"]]
+    }
 
+  end
+
+  def files
+    project = nil
+    params = {}
+    OptionParser.new { |opt|
+      opt.on('-h HOST','--host=HOST', 'host') { |v|
+        params[:host] = v
+      }
+      project = extract_project(opt)
+      @summery = "list project files"
+      return opt if @help
+    }
+    raise "project is not specified." unless project
+    start
+    unless params[:host]
+      host = @agent.hosts(project).first
+      params[:host] = host["host"]["id"]
+    end
+    raise "project has no hosts" unless params[:host]
+
+    @agent.files(project,params[:host]).each { |file|
+      puts "%s" % [file["file"]["name"]]
+    }
+  end
+
+  def files_get
+    @summery =  "get and put file."
+    return  files_get_one if @help 
+    file = files_get_one
+    file_put(file)
+  end
+
+  def files_dump
+    @summery =  "dump file."
+    return  files_get_one if @help 
+    file = files_get_one
+    puts file["file"]["contents"]
+  end
+
+  def files_modified 
+    @summery = "list modified files since last deploy."
+    return file_get_modified if @help
+    file_get_modified.each { |file|
+      puts "%s" % [file["file"]["name"]]
+    }
+  end
+
+  def files_modified_get
+    @summery = "get modified files since last deploy."
+    return file_get_modified if @help
+    file_get_modified.each { |file|
+      file = @agent.files(@project,@params[:host],file["file"]["name"])
+      file_put(file)
+    }
+  end
+  
 
   private
+
+  def file_get_modified
+    @params ||= {}
+    OptionParser.new { |opt|
+      opt.on('-h HOST','--host=HOST', 'host') { |v|
+        @params[:host] = v
+      }
+      @project = extract_project(opt)
+      return opt if @help
+    }
+    raise "project is not specified." unless @project
+    start
+    unless @params[:host]
+      host = @agent.hosts(@project).first
+      @params[:host] = host["host"]["id"]
+    end
+    raise "project has no hosts" unless @params[:host]
+    files = @agent.files(@project,@params[:host])
+    modified(files)
+  end
+
+  def file_put file
+    name = file["file"]["name"]
+    raise "Not in under git." unless in_git?
+
+    name = File.join(git_root,name)
+    FileUtils.mkdir_p(File.dirname(name))
+    File.open(name,"w"){ |f|
+      f.write file["file"]["contents"]
+    }
+    puts "--> " + file["file"]["name"]
+  end
+
+
+  def files_get_one
+    project = nil
+    params = {}
+    OptionParser.new { |opt|
+      opt.on('-h HOST','--host=HOST', 'host') { |v|
+        params[:host] = v
+      }
+      @banner = "<filename>"
+      project = extract_project(opt)
+      return opt if @help
+    }
+    raise "project is not specified." unless project
+    file = @command_options.shift
+    raise "file is not specified." unless project
+
+    start
+    unless params[:host]
+      host = @agent.hosts(project).first
+      params[:host] = host["host"]["id"]
+    end
+    raise "project has no hosts" unless params[:host]
+    @agent.files(project,params[:host],file)
+  end
+
+  def modified files
+    marker = files.find { |file|
+      file["file"]["name"] == ".phper.deployed"
+    }
+    "missing marker .phper.deployed file in this host"  unless marker
+    marker_mtime = Time.parse(marker["file"]["mtime"])
+    files.collect { |file|
+      file if Time.parse(file["file"]["mtime"]) > marker_mtime
+    }.compact
+  end
 
   def extract_project opt
     @banner = [@banner,"[--project=<project>]"].join(" ")

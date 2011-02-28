@@ -9,7 +9,8 @@ class Phper::CLI < CommandLineUtils::CLI
     yield self if block_given?
   end
   def dispatch(cmd,cmd_argv)
-    @commands.send(cmd.sub(/:/,"_"))
+    raise "Unknown command. #{cmd}" unless @commands.commands.include?(cmd)
+    @commands.send(cmd.gsub(/:/,"_"))
   end
   def version
     File.open(File.join(File.dirname(__FILE__) ,

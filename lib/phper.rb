@@ -50,6 +50,17 @@ module Phper
     return root
   end
 
+  def encode(str,salt=".")
+    enc = OpenSSL::Cipher::Cipher.new('aes256')
+    enc.encrypt.pkcs5_keyivgen(salt)
+    ((enc.update(str) + enc.final).unpack("H*")).to_s
+  end
+  
+  def decode(str,salt=".")
+    dec = OpenSSL::Cipher::Cipher.new('aes256')
+    dec.decrypt.pkcs5_keyivgen(salt)
+    (dec.update(Array.new([str]).pack("H*")) + dec.final)
+  end
   
 end
 require "rubygems"
