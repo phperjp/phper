@@ -45,6 +45,11 @@ Usage
 * open
 * db:init
 * deploy
+* hosts
+* files
+* files:get
+* files:modified
+* files:modified:get
 
 Contributing to phper
 ---------------------
