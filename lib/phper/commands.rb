@@ -3,6 +3,7 @@
 require 'phper'
 require "parsedate"
 require "time"
+require 'base64'
 
 class Phper::Commands < CommandLineUtils::Commands
   include Phper
@@ -397,7 +398,7 @@ class Phper::Commands < CommandLineUtils::Commands
     @summery =  "dump file."
     return  files_get_one if @help 
     file = files_get_one
-    puts file["file"]["contents"]
+    puts Base64.decode(file["file"]["contents"])
   end
 
   def files_modified 
@@ -447,7 +448,7 @@ class Phper::Commands < CommandLineUtils::Commands
     name = File.join(git_root,name)
     FileUtils.mkdir_p(File.dirname(name))
     File.open(name,"w"){ |f|
-      f.write file["file"]["contents"]
+      f.write Base64.decode(file["file"]["contents"])
     }
     puts "--> " + file["file"]["name"]
   end
