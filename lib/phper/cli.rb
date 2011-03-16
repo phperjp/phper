@@ -3,8 +3,9 @@
 require 'phper'
 class Phper::CLI < CommandLineUtils::CLI
   include Phper
-  def initialize
-    super
+  def initialize out=STDOUT
+    super()
+    @out = out
     @commands = Commands.new
     yield self if block_given?
   end
@@ -12,10 +13,10 @@ class Phper::CLI < CommandLineUtils::CLI
     raise "Unknown command. #{cmd}" unless @commands.commands.include?(cmd)
     @commands.send(cmd.gsub(/:/,"_"))
   end
-  def version out = STDOUT
+  def version
     File.open(File.join(File.dirname(__FILE__) ,
                         "..","..","VERSION"),"r") { |file|
-      out.puts file.gets
+      @out.puts file.gets
     }
   end
 end
