@@ -12,10 +12,10 @@ class Phper::CLI < CommandLineUtils::CLI
     raise "Unknown command. #{cmd}" unless @commands.commands.include?(cmd)
     @commands.send(cmd.gsub(/:/,"_"))
   end
-  def version
+  def version out = STDOUT
     File.open(File.join(File.dirname(__FILE__) ,
                         "..","..","VERSION"),"r") { |file|
-      puts file.gets
+      out.puts file.gets
     }
   end
 end
