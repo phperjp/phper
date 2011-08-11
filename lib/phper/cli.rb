@@ -3,9 +3,9 @@
 require 'phper'
 class Phper::CLI < CommandLineUtils::CLI
   include Phper
-  def initialize out=STDOUT
-    super()
-    @out = out
+  def initialize
+    super
+    @out=STDOUT
     @commands = Commands.new
     yield self if block_given?
   end
