@@ -3,6 +3,7 @@
 require 'phper'
 class Phper::CLI < CommandLineUtils::CLI
   include Phper
+  attr_accessor :out
   def initialize
     super
     @out=STDOUT
