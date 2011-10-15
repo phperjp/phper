@@ -49,6 +49,14 @@ class Phper::Agent
     get("/keys")
   end
 
+  def logs project, server
+    get("/projects/%s/servers/%s/logs" % [project,server["server"]["id"]])
+  end
+
+  def logs_tail project,server,name
+    get("/projects/%s/servers/%s/logs/%s" %
+        [project,server["server"]["id"],name])
+  end
 
   def projects_deploy project
     get("/projects/%s/deploy" % project)

@@ -17,6 +17,7 @@ class Phper::Commands < CommandLineUtils::Commands
     @commands += ["hosts"]
     @commands += ["files","files:dump","files:get"]
     @commands += ["files:modified","files:modified:get"]
+    @commands += ["logs","logs:tail"]
 
     @agent = Agent.new
     # @cache_file =  homedir + "/.phper.cache"
@@ -591,5 +592,66 @@ EOF
     end
   end
 
+  def logs
+    project = nil
+    server = nil
+    OptionParser.new { |opt|
+      opt.on('-s SERVER','--server=SERVER', 'server') { |v|
+        server = v
+      }
+      @summery = "list logs"
+      @banner = ""
+      project = extract_project(opt)
+      return opt if @help
+    }
+
+    raise "project is not specified." unless project
+    start
+    servers = @agent.servers(project)
+    raise "project #{project} has no servers." if servers.length == 0
+
+    if server
+      servers.find { |s| s["server"]["name"] =~ /^#{server}/ }
+    else
+      server = servers.first if servers.length == 1
+    end
+    raise "server is not specified." unless server
+
+    puts "-----> #{server['server']['name']}"
+    @agent.logs(project,server).each { |log|
+      puts log
+    }
+  end
+
+  def logs_tail
+    project = nil
+    server = nil
+    OptionParser.new { |opt|
+      opt.on('-s SERVER','--server=SERVER', 'server') { |v|
+        server = v
+      }
+      @summery = "list logs"
+      @banner = ""
+      project = extract_project(opt)
+      return opt if @help
+    }
+
+    raise "project is not specified." unless project
+    start
+    servers = @agent.servers(project)
+    raise "project #{project} has no servers." if servers.length == 0
+
+    if server
+      servers.find { |s| s["server"]["name"] =~ /^#{server}/ }
+    else
+      server = servers.first if servers.length == 1
+    end
+    raise "server is not specified." unless server
+    name = @command_options.shift
+    name ||= "access"
+
+    puts "-----> #{server['server']['name']}"
+    puts @agent.logs_tail(project,server,name)["log"]
+  end
 
 end
