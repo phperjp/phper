@@ -5,22 +5,21 @@
 
 Gem::Specification.new do |s|
   s.name = %q{phper}
-  s.version = "0.5.4"
+  s.version = "0.6.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Yoshihiro TAKAHARA"]
-  s.date = %q{2011-03-01}
-  s.default_executable = %q{phper}
+  s.authors = [%q{Yoshihiro TAKAHARA}]
+  s.date = %q{2011-10-15}
   s.description = %q{phper}
   s.email = %q{y.takahara@gmail.com}
-  s.executables = ["phper"]
+  s.executables = [%q{phper}]
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.md"
   ]
   s.files = [
+    ".document",
     "Gemfile",
-    "Gemfile.lock",
     "LICENSE.txt",
     "README.md",
     "Rakefile",
@@ -35,9 +34,9 @@ Gem::Specification.new do |s|
     "test/test_phper.rb"
   ]
   s.homepage = %q{http://github.com/tumf/phper}
-  s.licenses = ["MIT"]
-  s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.5.0}
+  s.licenses = [%q{MIT}]
+  s.require_paths = [%q{lib}]
+  s.rubygems_version = %q{1.8.6}
   s.summary = %q{phper}
   s.test_files = [
     "test/helper.rb",
@@ -54,10 +53,12 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<command-line-utils>, [">= 0.0.1"])
       s.add_runtime_dependency(%q<launchy>, [">= 0"])
       s.add_runtime_dependency(%q<json>, [">= 0"])
+      s.add_runtime_dependency(%q<rdoc>, [">= 0"])
       s.add_development_dependency(%q<shoulda>, [">= 0"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.5.2"])
       s.add_development_dependency(%q<rcov>, [">= 0"])
+      s.add_development_dependency(%q<mocha>, [">= 0"])
     else
       s.add_dependency(%q<rest-client>, [">= 0"])
       s.add_dependency(%q<keystorage>, ["> 0.1"])
@@ -65,10 +66,12 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<command-line-utils>, [">= 0.0.1"])
       s.add_dependency(%q<launchy>, [">= 0"])
       s.add_dependency(%q<json>, [">= 0"])
+      s.add_dependency(%q<rdoc>, [">= 0"])
       s.add_dependency(%q<shoulda>, [">= 0"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
       s.add_dependency(%q<rcov>, [">= 0"])
+      s.add_dependency(%q<mocha>, [">= 0"])
     end
   else
     s.add_dependency(%q<rest-client>, [">= 0"])
@@ -77,10 +80,12 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<command-line-utils>, [">= 0.0.1"])
     s.add_dependency(%q<launchy>, [">= 0"])
     s.add_dependency(%q<json>, [">= 0"])
+    s.add_dependency(%q<rdoc>, [">= 0"])
     s.add_dependency(%q<shoulda>, [">= 0"])
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
     s.add_dependency(%q<rcov>, [">= 0"])
+    s.add_dependency(%q<mocha>, [">= 0"])
   end
 end
 
