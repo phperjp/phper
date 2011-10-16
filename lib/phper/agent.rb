@@ -154,7 +154,7 @@ class Phper::Agent
   protected
   def call(method,url,data,format)
     url = "%s%s.%s" % [base_url,url,format.to_s]
-    resource = RestClient::Resource.new(url,:user => @auth[:user], :password => @auth[:password])
+    resource = RestClient::Resource.new(url,:user => @auth[:user], :password => @auth[:password],:timeout => -1)
     parse(resource.send(method.to_s,data),format)
   end
 
