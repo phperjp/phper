@@ -618,12 +618,15 @@ EOF
   def logs_tail
     project = nil
     server = nil
+    name = nil
     OptionParser.new { |opt|
       opt.on('-s SERVER','--server=SERVER', 'server') { |v|
         server = v
       }
+      opt.on('-n NAME','--name=NAME', 'log name') { |v|
+        name = v
+      }
       @summery = "list logs"
-      @banner = "[name]"
       project = extract_project(opt)
       return opt if @help
     }
@@ -638,10 +641,7 @@ EOF
       raise "server is not specified." unless server
     end
 
-    name = @command_options.shift
-
     servers = [server] if server
-
     servers.each { |server|
       names = @agent.logs(project,server)
       if name
