@@ -66,5 +66,7 @@ Contributing to phper
 Copyright
 ---------
 
-Copyright (c) 2011 Yoshihiro TAKAHARA. See LICENSE.txt for further details.
+Copyright (c) 2011-2012 Yoshihiro TAKAHARA. See LICENSE.txt for further details.
+
+[![endorse](http://api.coderwall.com/tumf/endorsecount.png)](http://coderwall.com/tumf)
 
