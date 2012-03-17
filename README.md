@@ -50,7 +50,8 @@ Usage
 * files:get
 * files:modified
 * files:modified:get
-
+* logs
+* logs:tail
 Contributing to phper
 ---------------------
 

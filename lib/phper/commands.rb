@@ -594,11 +594,8 @@ EOF
 
   def logs
     project = nil
-    server = nil
+    # server = nil
     OptionParser.new { |opt|
-      opt.on('-s SERVER','--server=SERVER', 'server') { |v|
-        server = v
-      }
       @summery = "list logs"
       @banner = ""
       project = extract_project(opt)
@@ -610,16 +607,11 @@ EOF
     servers = @agent.servers(project)
     raise "project #{project} has no servers." if servers.length == 0
 
-    if server
-      servers.find { |s| s["server"]["name"] =~ /^#{server}/ }
-    else
-      server = servers.first if servers.length == 1
-    end
-    raise "server is not specified." unless server
-
-    puts "-----> #{server['server']['name']}"
-    @agent.logs(project,server).each { |log|
-      puts log
+    servers.each { |server|
+      puts "-----> #{server['server']['name']}"
+      @agent.logs(project,server).each { |log|
+        puts log
+      }
     }
   end
 
@@ -631,7 +623,7 @@ EOF
         server = v
       }
       @summery = "list logs"
-      @banner = ""
+      @banner = "[name]"
       project = extract_project(opt)
       return opt if @help
     }
@@ -642,16 +634,25 @@ EOF
     raise "project #{project} has no servers." if servers.length == 0
 
     if server
-      servers.find { |s| s["server"]["name"] =~ /^#{server}/ }
-    else
-      server = servers.first if servers.length == 1
+      server = servers.find { |s| s["server"]["name"] =~ /^#{server}/ }
+      raise "server is not specified." unless server
     end
-    raise "server is not specified." unless server
-    name = @command_options.shift
-    name ||= "access"
 
-    puts "-----> #{server['server']['name']}"
-    puts @agent.logs_tail(project,server,name)["log"]
+    name = @command_options.shift
+
+    servers = [server] if server
+
+    servers.each { |server|
+      names = @agent.logs(project,server)
+      if name
+        raise "#{server["server"]["name"]} has no log:#{name}." unless names.include?(name)
+        names = [name]
+      end
+      names.each { |name|
+        puts "-----> log:#{name} #{server["server"]["name"]}"
+        puts @agent.logs_tail(project,server,name)["log"]
+      }
+    }
   end
 
 end
