@@ -4,15 +4,15 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{phper}
-  s.version = "0.6.1"
+  s.name = "phper"
+  s.version = "0.7.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = [%q{Yoshihiro TAKAHARA}]
-  s.date = %q{2011-10-16}
-  s.description = %q{phper}
-  s.email = %q{y.takahara@gmail.com}
-  s.executables = [%q{phper}]
+  s.authors = ["Yoshihiro TAKAHARA"]
+  s.date = "2012-03-17"
+  s.description = "phper"
+  s.email = "y.takahara@gmail.com"
+  s.executables = ["phper"]
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.md"
@@ -33,11 +33,11 @@ Gem::Specification.new do |s|
     "test/helper.rb",
     "test/test_phper.rb"
   ]
-  s.homepage = %q{http://github.com/tumf/phper}
-  s.licenses = [%q{MIT}]
-  s.require_paths = [%q{lib}]
-  s.rubygems_version = %q{1.8.6}
-  s.summary = %q{phper}
+  s.homepage = "http://github.com/tumf/phper"
+  s.licenses = ["MIT"]
+  s.require_paths = ["lib"]
+  s.rubygems_version = "1.8.12"
+  s.summary = "phper"
   s.test_files = [
     "test/helper.rb",
     "test/test_phper.rb"
