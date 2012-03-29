@@ -18,6 +18,7 @@ class Phper::Commands < CommandLineUtils::Commands
     @commands += ["files","files:dump","files:get"]
     @commands += ["files:modified","files:modified:get"]
     @commands += ["logs","logs:tail"]
+    @commands += ["versions","versions:set"]
 
     @agent = Agent.new
     # @cache_file =  homedir + "/.phper.cache"
@@ -653,6 +654,35 @@ EOF
         puts @agent.logs_tail(project,server,name)["log"]
       }
     }
+  end
+
+
+  def versions
+    project = nil
+    OptionParser.new { |opt|
+      @summery = "list available versions"
+      project = extract_project(opt)
+      return opt if @help
+    }
+    raise "project is not specified." unless project
+    start
+    @agent.versions(project).each { |ver| puts ver }
+  end
+
+  def versions_set
+    project = nil
+    OptionParser.new { |opt|
+      @summery = "list available versions"
+      @banner = "[<ver>]"
+      project = extract_project(opt)
+      return opt if @help
+    }
+    raise "project is not specified." unless project
+    ver = @command_options.shift
+    raise "version is not specified." unless ver
+    start
+    @agent.version_set(project,ver)
+    puts "--> version:#{ver}"
   end
 
 end

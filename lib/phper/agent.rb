@@ -53,6 +53,14 @@ class Phper::Agent
     get("/projects/%s/servers/%s/logs" % [project,server["server"]["id"]])
   end
 
+  def versions project
+    get("/projects/%s/versions" % [project])
+  end
+
+  def version_set project, ver
+    put("/projects/#{project}/versions", {:version => ver})
+  end
+
   def logs_tail project,server,name
     get("/projects/%s/servers/%s/logs/%s" %
         [project,server["server"]["id"],name])
