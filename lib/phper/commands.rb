@@ -51,7 +51,7 @@ class Phper::Commands < CommandLineUtils::Commands
       @agent.login(user,password)
       if @agent.login? # => OK
         ok = true
-        Keystorage.set("phper.jp",user,password)
+        Keystorage.set("phper.jp",user.to_s,password.to_s)
         puts "login OK"
       else
         puts "password mismatch"
