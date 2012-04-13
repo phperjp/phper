@@ -672,8 +672,8 @@ EOF
   def versions_set
     project = nil
     OptionParser.new { |opt|
-      @summery = "list available versions"
-      @banner = "[<ver>]"
+      @summery = "set versions"
+      @banner = "<ver>"
       project = extract_project(opt)
       return opt if @help
     }
