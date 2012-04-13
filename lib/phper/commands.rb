@@ -526,6 +526,10 @@ class Phper::Commands < CommandLineUtils::Commands
   end
 
   def exec_report cmd
+    Phper::Commands.exec_report cmd
+  end
+
+  def self.exec_report cmd
     %x{#{cmd}}
     puts "--> #{cmd}"
   end
@@ -537,28 +541,31 @@ class Phper::Commands < CommandLineUtils::Commands
 * [CLI] .phper/rsync_exclude.txt
 =end
   def init_phper_dir
+    Phper::Commands.init_phper_dir git_root
+  end
+
+  def self.init_phper_dir root
     files = {}
-    files[:deploy] = File.join(git_root,".phper","deploy")
-    files[:initdb] = File.join(git_root,".phper","initdb")
-    files[:httpd] = File.join(git_root,".phper","httpd.conf")
-    files[:rsync] = File.join(git_root,".phper","rsync_exclude.txt")
-    FileUtils.mkdir_p(File.join(git_root,".phper"))
-    puts File.join(git_root,".phper")
+    files[:deploy] = File.join(root,".phper","deploy")
+    files[:initdb] = File.join(root,".phper","initdb")
+    files[:httpd] = File.join(root,".phper","httpd.conf")
+    files[:rsync] = File.join(root,".phper","rsync_exclude.txt")
+    FileUtils.mkdir_p(File.join(root,".phper"))
+    puts File.join(root,".phper")
     # deploy
-    unless File.file?(files[:deploy])
+    unless File.file?(files[:deploy]) 
       File.open(files[:deploy],"w"){ |f|
         f.puts <<EOF
 # deploy script here
 if [ ! -f .phper.deployed ] ; then
   # when 1st deployed.
   true
-fi
-
+  fi
 EOF
       }
-      File::chmod(0100755,files[:deploy])
-      exec_report("git add -f #{files[:deploy]}")
     end
+    File::chmod(0100755,files[:deploy])
+    Phper::Commands.exec_report("git add -f #{files[:deploy]}")
     # initdb
     unless File.file?(files[:initdb])
       File.open(files[:initdb],"w"){ |f|
