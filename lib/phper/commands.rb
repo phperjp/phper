@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 require 'phper'
-require "parsedate"
+require "parsedate" if RUBY_VERSION < '1.9'
 require "time"
 require 'base64'
 
