@@ -560,7 +560,7 @@ class Phper::Commands < CommandLineUtils::Commands
 if [ ! -f .phper.deployed ] ; then
   # when 1st deployed.
   true
-  fi
+fi
 EOF
       }
     end
