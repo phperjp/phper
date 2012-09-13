@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
+$:.unshift(File.join(File.dirname(__FILE__),'..','lib'))
+require 'phper'
+
+phper = File.join(File.dirname(__FILE__),"phper")
+puts "# phper CLI commands"
+cmds = Phper::Commands.new
+
+puts "<div>"
+cmds.commands.sort { |a,b| a <=> b }.each { |cmd|
+    puts "<a href='#commands_#{cmd}'/>#{cmd}</a>&nbsp;"
+}
+puts "</div>"
+
+cmds.commands.sort { |a,b| a <=> b }.each { |cmd|
+    puts "<a name='commands_#{cmd}'/>"
+    puts "## #{cmd}"
+    puts ""
+    `#{phper} help #{cmd}`.each_line { |line|
+        puts "    #{line}"
+    }
+    # %x{#{phper} help #{cmd}}
+}
+
+exit
