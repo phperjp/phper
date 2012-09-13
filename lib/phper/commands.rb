@@ -692,4 +692,19 @@ EOF
     puts "--> version:#{ver}"
   end
 
+  def exec
+    project = nil
+    OptionParser.new { |opt|
+      @summery = "execute command"
+      @banner = "<command>"
+      project = extract_project(opt)
+      return opt if @help
+    }
+    raise "project is not specified." unless project
+    command = @command_options.shift
+    start
+    puts "--> exec:#{command}"
+    puts @agent.exec(project,command)
+  end
+
 end

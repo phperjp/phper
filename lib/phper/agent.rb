@@ -27,6 +27,11 @@ class Phper::Agent
     @login
   end
 
+  # gitリポジトリ名からprojectを返す
+  def project_from_git git
+    get("/gits/#{git}")
+  end
+
   def projects id = nil
     if id
       get("/projects/%s" % id)
@@ -59,6 +64,10 @@ class Phper::Agent
 
   def version_set project, ver
     put("/projects/#{project}/versions", {:version => ver})
+  end
+
+  def exec project, command
+    post("/projects/#{project}/exec", {:command => command})
   end
 
   def logs_tail project,server,name
