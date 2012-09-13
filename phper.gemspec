@@ -5,30 +5,34 @@
 
 Gem::Specification.new do |s|
   s.name = "phper"
-  s.version = "0.8.1"
+  s.version = "0.8.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Yoshihiro TAKAHARA"]
-  s.date = "2012-04-01"
+  s.date = "2012-09-13"
   s.description = "phper"
   s.email = "y.takahara@gmail.com"
-  s.executables = ["phper"]
+  s.executables = ["phper", "markdown"]
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.md"
   ]
   s.files = [
     ".document",
+    ".travis.yml",
     "Gemfile",
+    "Gemfile.lock",
     "LICENSE.txt",
     "README.md",
     "Rakefile",
     "VERSION",
+    "bin/markdown",
     "bin/phper",
     "lib/phper.rb",
     "lib/phper/agent.rb",
     "lib/phper/cli.rb",
     "lib/phper/commands.rb",
+    "man.md",
     "phper.gemspec",
     "test/helper.rb",
     "test/test_phper.rb"
@@ -36,12 +40,8 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/tumf/phper"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.12"
+  s.rubygems_version = "1.8.21"
   s.summary = "phper"
-  s.test_files = [
-    "test/helper.rb",
-    "test/test_phper.rb"
-  ]
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
@@ -55,9 +55,8 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<json>, [">= 0"])
       s.add_runtime_dependency(%q<rdoc>, [">= 0"])
       s.add_development_dependency(%q<shoulda>, [">= 0"])
-      s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
-      s.add_development_dependency(%q<jeweler>, ["~> 1.5.2"])
-      s.add_development_dependency(%q<rcov>, [">= 0"])
+      s.add_development_dependency(%q<bundler>, [">= 0"])
+      s.add_development_dependency(%q<jeweler>, [">= 0"])
       s.add_development_dependency(%q<mocha>, [">= 0"])
     else
       s.add_dependency(%q<rest-client>, [">= 0"])
@@ -68,9 +67,8 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<json>, [">= 0"])
       s.add_dependency(%q<rdoc>, [">= 0"])
       s.add_dependency(%q<shoulda>, [">= 0"])
-      s.add_dependency(%q<bundler>, ["~> 1.0.0"])
-      s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
-      s.add_dependency(%q<rcov>, [">= 0"])
+      s.add_dependency(%q<bundler>, [">= 0"])
+      s.add_dependency(%q<jeweler>, [">= 0"])
       s.add_dependency(%q<mocha>, [">= 0"])
     end
   else
@@ -82,9 +80,8 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<json>, [">= 0"])
     s.add_dependency(%q<rdoc>, [">= 0"])
     s.add_dependency(%q<shoulda>, [">= 0"])
-    s.add_dependency(%q<bundler>, ["~> 1.0.0"])
-    s.add_dependency(%q<jeweler>, ["~> 1.5.2"])
-    s.add_dependency(%q<rcov>, [">= 0"])
+    s.add_dependency(%q<bundler>, [">= 0"])
+    s.add_dependency(%q<jeweler>, [">= 0"])
     s.add_dependency(%q<mocha>, [">= 0"])
   end
 end
