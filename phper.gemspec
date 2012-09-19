@@ -5,14 +5,14 @@
 
 Gem::Specification.new do |s|
   s.name = "phper"
-  s.version = "0.8.3"
+  s.version = "0.8.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Yoshihiro TAKAHARA"]
-  s.date = "2012-09-13"
+  s.date = "2012-09-19"
   s.description = "phper"
   s.email = "y.takahara@gmail.com"
-  s.executables = ["phper", "markdown"]
+  s.executables = ["markdown", "phper"]
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.md"
