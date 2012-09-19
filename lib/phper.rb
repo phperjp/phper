@@ -65,7 +65,19 @@ module Phper
 end
 require "rubygems"
 require "json"
+
 require "highline/import"
+if HighLine::CHARACTER_MODE == "stty" and !system("stty >/dev/null 2>&1")
+    class HighLine
+        module SystemExtensions
+            def raw_no_echo_mode
+            end
+            def restore_mode
+            end
+        end
+    end
+end
+
 require "keystorage"
 require 'rest-client'
 require 'highline'
