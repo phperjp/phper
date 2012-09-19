@@ -3,9 +3,9 @@ source "http://rubygems.org"
 # Example:
 #   gem "activesupport", ">= 2.3.5"
 gem "rest-client"
-gem 'keystorage', '> 0.1'
-gem 'highline', '> 1.6'
-gem 'command-line-utils' , '>= 0.0.1'
+gem 'keystorage'
+gem 'highline'
+gem 'command-line-utils'
 gem 'launchy'
 gem 'json'
 gem 'rdoc'
