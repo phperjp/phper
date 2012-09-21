@@ -53,7 +53,7 @@ module Phper
   def encode(str,salt=".")
     enc = OpenSSL::Cipher::Cipher.new('aes256')
     enc.encrypt.pkcs5_keyivgen(salt)
-    ((enc.update(str) + enc.final).unpack("H*")).to_s
+    ((enc.update(str) + enc.final).unpack("H*")).first.to_s
   end
   
   def decode(str,salt=".")
