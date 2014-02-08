@@ -1,6 +1,13 @@
 phper
 =====
 
+[![Build Status](https://travis-ci.org/tumf/phper.png?branch=master)](https://travis-ci.org/tumf/phper)
+[![Coverage Status](https://coveralls.io/repos/tumf/phper/badge.png?branch=master)](https://coveralls.io/r/tumf/phper?branch=master)
+[![Gem Version](https://badge.fury.io/rb/phper.png)](http://badge.fury.io/rb/phper)
+[![Code Climate](https://codeclimate.com/github/tumf/phper.png)](https://codeclimate.com/github/tumf/phper)
+[![Dependency Status](https://gemnasium.com/tumf/phper.png)](https://gemnasium.com/tumf/phper)
+
+
 A CLI utility for PHPer.jp.
 
 PHPer.jp is a Platform as a Service of PHP.
