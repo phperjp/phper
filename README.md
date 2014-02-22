@@ -77,3 +77,7 @@ Copyright (c) 2011-2012 Yoshihiro TAKAHARA. See LICENSE.txt for further details.
 
 [![endorse](http://api.coderwall.com/tumf/endorsecount.png)](http://coderwall.com/tumf)
 
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/tumf/phper/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
