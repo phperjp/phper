@@ -1,7 +1,7 @@
 phper
 =====
 
-[![Build Status](https://travis-ci.org/tumf/phper.png?branch=master)](https://travis-ci.org/tumf/phper)
+[![Build Status](https://travis-ci.org/phperjp/phper.png?branch=master)](https://travis-ci.org/phperjp/phper)
 [![Coverage Status](https://coveralls.io/repos/tumf/phper/badge.png?branch=master)](https://coveralls.io/r/tumf/phper?branch=master)
 [![Gem Version](https://badge.fury.io/rb/phper.png)](http://badge.fury.io/rb/phper)
 [![Code Climate](https://codeclimate.com/github/tumf/phper.png)](https://codeclimate.com/github/tumf/phper)
